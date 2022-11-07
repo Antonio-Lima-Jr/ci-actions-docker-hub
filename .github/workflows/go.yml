@@ -11,6 +11,12 @@ jobs:
   test:
     name: rodando testes no os ${{ matrix.os }} com o go versão ${{ matrix.go_version }}
     runs-on: ${{ matrix.os }}
+    env: 
+      HOST: postgres
+      DBPORT: 5432
+      USER: root
+      PASSWORD: root
+      DBNAME: root
     strategy:
       matrix:
         go_version: ['1.18', '1.17', '>=1.18']

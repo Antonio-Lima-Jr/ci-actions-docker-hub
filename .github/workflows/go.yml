@@ -12,7 +12,7 @@ jobs:
     name: rodando testes no os ${{ matrix.os }} com o go versão ${{ matrix.go_version }}
     runs-on: ${{ matrix.os }}
     env: 
-      HOST: postgres
+      HOST: localhost
       DBPORT: 5432
       USER: root
       PASSWORD: root

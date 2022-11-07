@@ -11,6 +11,12 @@ jobs:
   test:
     name: rodando testes no os ${{ matrix.os }} com o go versão ${{ matrix.go_version }}
     runs-on: ${{ matrix.os }}
+    env: 
+      HOST: localhost
+      DBPORT: 5432
+      USER: root
+      PASSWORD: root
+      DBNAME: root
     strategy:
       matrix:
         go_version: ['1.18', '1.17', '>=1.18']
@@ -35,11 +41,23 @@ jobs:
   
   build:
     needs: test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-latest', 'ubuntu-18.04']
+    runs-on: ubuntu-latest  
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: go build -v main.go
+      run: go build -v main.go      
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
+      with:
+      # Artifact name
+        name: app
+        # A file, directory or wildcard pattern that describes what to upload
+        path: main
+        # The desired behavior if no files are found using the provided path.
+     
+  docker: 
+    needs: build
+    uses: ./.github/workflows/docker.yml
+    secrets: inherit
+    
